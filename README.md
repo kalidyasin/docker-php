@@ -2,6 +2,8 @@
 
 A collection of optimized PHP Docker images based on Alpine Linux, including FPM, CLI, and ZTS variants for PHP versions 8.2, 8.3, 8.4, and 8.5.
 
+Images are available on Docker Hub: [kalidyasin/php](https://hub.docker.com/r/kalidyasin/php)
+
 ## Features
 
 - **Lightweight**: Based on Alpine Linux.
@@ -13,14 +15,16 @@ A collection of optimized PHP Docker images based on Alpine Linux, including FPM
 - **Composer**: Latest version included in all variants.
 - **Variants**: `fpm`, `cli`, and `zts`.
 
-## Supported Versions
+## Supported Versions & Tags
 
-| PHP Version | Alpine | Variants |
-| :--- | :--- | :--- |
-| 8.5 | Yes | fpm, cli, zts |
-| 8.4 | Yes | fpm, cli, zts |
-| 8.3 | Yes | fpm, cli, zts |
-| 8.2 | Yes | fpm, cli, zts |
+Images follow the naming convention: `kalidyasin/php:<version>-<variant>-alpine`
+
+| PHP Version | Alpine | Variants | Docker Hub Tag Examples |
+| :--- | :--- | :--- | :--- |
+| 8.5 | Yes | fpm, cli, zts | `8.5-fpm-alpine`, `8.5-cli-alpine` |
+| 8.4 | Yes | fpm, cli, zts | `8.4-fpm-alpine`, `8.4-cli-alpine` |
+| 8.3 | Yes | fpm, cli, zts | `8.3-fpm-alpine`, `8.3-cli-alpine` |
+| 8.2 | Yes | fpm, cli, zts | `8.2-fpm-alpine`, `8.2-cli-alpine` |
 
 ---
 
@@ -28,15 +32,14 @@ A collection of optimized PHP Docker images based on Alpine Linux, including FPM
 
 ### 1. Docker
 
-#### Build an Image
-To build a specific version and variant:
+#### Pull an Image
 ```bash
-docker build -t my-php-app:8.5-fpm ./8.5/alpine/fpm
+docker pull kalidyasin/php:8.5-fpm-alpine
 ```
 
 #### Run a Container
 ```bash
-docker run -it --rm -v $(pwd):/var/www/html my-php-app:8.5-fpm
+docker run -it --rm -v $(pwd):/var/www/html kalidyasin/php:8.5-fpm-alpine
 ```
 
 ### 2. Docker Compose
@@ -45,8 +48,7 @@ Create a `docker-compose.yml` file:
 ```yaml
 services:
   app:
-    build:
-      context: ./8.5/alpine/fpm
+    image: kalidyasin/php:8.5-fpm-alpine
     volumes:
       - .:/var/www/html
     ports:
@@ -60,32 +62,33 @@ docker compose up -d
 
 ### 3. Podman
 
-Podman is a daemonless container engine and is a drop-in replacement for Docker.
-
-#### Build an Image
-```bash
-podman build -t my-php-app:8.5-fpm ./8.5/alpine/fpm
-```
-
 #### Run a Container
 ```bash
-podman run -it --rm -v $(pwd):/var/www/html:Z my-php-app:8.5-fpm
+podman run -it --rm -v $(pwd):/var/www/html:Z kalidyasin/php:8.5-fpm-alpine
 ```
 *Note: The `:Z` flag is often needed on systems with SELinux (like Fedora/RHEL) to handle volume permissions.*
 
 ### 4. Podman Compose
 
-Podman Compose is a tool for running unchanged Docker Compose files with Podman.
-
-#### Install (if not present)
-```bash
-pip install podman-compose
-```
-
-#### Run with Podman Compose
 Using the same `docker-compose.yml` as above:
 ```bash
 podman-compose up -d
+```
+
+---
+
+## Building from Source
+
+If you want to build the images locally or customize them:
+
+### Build using Docker
+```bash
+docker build -t my-php-app:8.5-fpm ./8.5/alpine/fpm
+```
+
+### Build using Podman
+```bash
+podman build -t my-php-app:8.5-fpm ./8.5/alpine/fpm
 ```
 
 ---
