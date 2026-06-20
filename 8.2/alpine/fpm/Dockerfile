@@ -1,7 +1,7 @@
 FROM docker.io/library/php:8.2-fpm-alpine
 
 # 1. Set working directory
-WORKDIR /var/www/html
+# WORKDIR /var/www/html
 
 # 2. Add composer
 COPY --from=docker.io/library/composer:latest /usr/bin/composer /usr/local/bin/composer
@@ -33,6 +33,7 @@ RUN apk add --no-cache --virtual .build-deps \
         pcntl \
         bcmath \
         calendar \
+        opcache \
     && pecl install redis \
     && docker-php-ext-enable redis \
     && apk del .build-deps \

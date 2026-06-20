@@ -1,7 +1,7 @@
 FROM docker.io/library/php:8.5-fpm-alpine
 
 # 1. Set working directory
-WORKDIR /var/www/html
+# WORKDIR /var/www/html
 
 # 2. Add composer
 COPY --from=docker.io/library/composer:latest /usr/bin/composer /usr/local/bin/composer
