@@ -10,18 +10,26 @@ COPY --from=docker.io/library/composer:latest /usr/bin/composer /usr/local/bin/c
 RUN apk add --no-cache --virtual .build-deps \
         $PHPIZE_DEPS \
         postgresql-dev \
-    && apk add --no-cache \
-        zip \
         libzip-dev \
+        oniguruma-dev \
+        freetype-dev \
         libjpeg-turbo-dev \
         libpng-dev \
         libwebp-dev \
-        freetype-dev \
+    && apk add --no-cache \
+        zip \
         git \
         curl \
-        oniguruma-dev \
         libpq \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
+        libzip \
+        freetype \
+        libjpeg-turbo \
+        libpng \
+        libwebp \
+    && docker-php-ext-configure gd \
+        --with-freetype \
+        --with-jpeg \
+        --with-webp \
     && docker-php-ext-install -j$(nproc) \
         gd \
         pdo \
@@ -36,7 +44,7 @@ RUN apk add --no-cache --virtual .build-deps \
     && pecl install redis \
     && docker-php-ext-enable redis \
     && apk del .build-deps \
-    && rm -rf /tmp/pear \
-    && rm -rf /var/cache/apk/*
-
+    && rm -rf \
+        /tmp/pear \
+        /var/cache/apk/*
 CMD ["php-fpm", "-y", "/usr/local/etc/php-fpm.conf", "-R"]
